@@ -1,7 +1,11 @@
 const { validatePassword, cryptPass } = require("../utils/bcrypt");
 const { generateToken } = require("../utils/token");
 const UserManager = require("../daos/mongoDaos/UsersManager");
-const cookieField = process.env.COOKIE_FIELD;
+const {
+  COOKIE_FIELD: cookieField,
+  ADMIN_EMAIL: adminEmail,
+  ADMIN_PASSWORD: adminPassword,
+} = process.env;
 
 class SessionControler {
   async login(req, res) {
@@ -27,7 +31,7 @@ class SessionControler {
   }
 
   async register(req, res) {
-    const { email, password, nombre, apellido, edad, isAdmin } = req.body;
+    const { email, password, nombre, apellido, edad } = req.body;
     const usr = await UserManager.getSingleUser(email);
 
     if (usr) {
@@ -38,6 +42,7 @@ class SessionControler {
         url: "/login",
       });
     }
+    let isAdmin = email === adminEmail && password === adminPassword;
     const user = {
       nombre,
       apellido,
