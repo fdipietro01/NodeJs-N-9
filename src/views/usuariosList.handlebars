@@ -1,0 +1,48 @@
+<div class="alert alert-info">
+    <h1 class="mx-auto" style="width: 450px">Lista de Usuarios</h1>
+</div>
+
+{{!-- Cuadro de logueo --}}
+<div class="ml-3">
+    <span class="alert-info">
+        <strong>Usuario Logueado: </strong> {{nombre}} {{apellido}}
+        <strong>(ADMIN)</strong>
+    </span>
+    <div>
+        <form method="GET" action="/sessions/logout">
+            <button type="submit" class=" btn-info">Desloguearse</button>
+        </form>
+    </div>
+</div>
+
+{{!-- Tabla de Usuarios --}}
+<div style="display: flex">
+    <div id="container" class="mx-auto" style="width: 50%">
+        <table class="table table-stripped" id="tableProd">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="text-center" scope="col">Nombre</th>
+                    <th class="text-center" scope="col">Apellido</th>
+                    <th class="text-center" scope="col">Email</th>
+                    <th class="text-center" scope="col">ID</th>
+                </tr>
+            </thead>
+            <tbody id="body">
+                {{#if dataExist}}
+                {{#each usuarios}}
+                <tr>
+                    <td class="text-center">{{this.nombre}}algo</td>
+                    <td class="text-center">{{this.apellido}}</td>
+                    <td class="text-center">{{this.email}}</td>
+                    <td class="text-center">{{this._id}}</td>
+                </tr>
+                {{/each}}
+                {{else}}
+                <div id="alertContainer">
+                    <div id="boxAlert" class="alert alert-danger mx-auto" style="width: 400px" role="alert">
+                        <span class="mx-auto"> No existen usuarios por el momento.</span>
+                    </div>
+                </div>
+            </tbody>
+        </table>
+        {{/if}}

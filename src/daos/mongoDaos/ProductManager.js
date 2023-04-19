@@ -82,7 +82,7 @@ class ProductManager {
 
   deleteProduct = async (id) => {
     try {
-      const parsedId = Types.ObjectId(id);
+      const parsedId = new Types.ObjectId(id);
       const { deletedCount } = await modeloProducto.deleteOne({
         _id: parsedId,
       });
@@ -93,4 +93,4 @@ class ProductManager {
   };
 }
 
-module.exports = ProductManager;
+module.exports = new ProductManager();

@@ -1,5 +1,3 @@
-const jwt = require("jsonwebtoken");
-
 const autorization = (role) => async (req, res, next) => {
   if (!req.user)
     return res.render("sessionAlert", {
@@ -10,8 +8,8 @@ const autorization = (role) => async (req, res, next) => {
   if (req.user.role !== role)
     return res.render("sessionAlert", {
       message: "Usuario sin permisos para realizar la acción",
-      case: "Login",
-      url: "/login",
+      case: "Home",
+      url: "/home",
     });
   next();
 };

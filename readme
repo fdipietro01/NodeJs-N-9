@@ -7,7 +7,11 @@ En manejo del login/register en esta oportunidad se utiliza jwt como estrategia 
 A continuación una breve guía de las rutas:
 
 -http://localhost:8080/login
-Esta vista muestra un formulario de login. En caso de ya encontrarse una sesión iniciada, redirige al home de productos.
+Esta vista muestra un formulario de login. En caso de ya encontrarse una sesión iniciada, redirige al home de
+productos.
+
+-http://localhost:8080/relogin
+Esta vista muestra un formulario para resetear contraseña. En caso de ya encontrarse una sesión iniciada, redirige al home de productos.
 
 -http://localhost:8080/register
 Esta vista muestra un formulario de registro. En caso de ya encontrarse una sesión iniciada, redirige al home de productos.
@@ -27,6 +31,6 @@ Si no hubiese una sesión iniciada, la pagina redirige al login.
 Esta url permite crear un nuevo carrito y obtener su numero de id. Con este, podemos buscar el carrito en la base de datos.
 Si no hubiese una sesión iniciada, la pagina redirige al login.
 
--http:localhost:8080/carts/:id
+-http:localhost:8080/api/carts/:id
 Esta url muestra el resultado de la búsqueda de un carrito y los productos que contiene. También permite ver los productos por agregar presentes en la base de datos
 Si no hubiese una sesión iniciada, la pagina redirige al login.

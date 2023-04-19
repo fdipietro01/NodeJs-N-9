@@ -3,7 +3,6 @@ const port = 8081;
 //AGREGAR PRODUCTO
 const productForm = document.getElementById("form");
 productForm?.addEventListener("submit", async (evt) => {
-  console.log("subsss");
   evt.preventDefault();
   const body = {};
   const inputsForms = Array.from(productForm.elements);
@@ -18,7 +17,6 @@ productForm?.addEventListener("submit", async (evt) => {
     window.alert("Ingrese todos los campos");
     return;
   }
-  console.log(body);
   const url = `http://localhost:${port}/api/productos/`;
   const data = await fetch(url, {
     method: "POST",
@@ -27,7 +25,6 @@ productForm?.addEventListener("submit", async (evt) => {
     },
     body: JSON.stringify(body),
   });
-  console.log(data);
 
   const { redirectUrl, message } = await data.json();
   if (data.status === 200) {
@@ -37,11 +34,24 @@ productForm?.addEventListener("submit", async (evt) => {
   }
 });
 
+//ELIMINAR PRODUCTO
+const deleteItem = async (item) => {
+  const data = await fetch(`http://localhost:${port}/api/productos/${item}`, {
+    method: "DELETE",
+  });
+  const { redirectUrl, message } = await data.json();
+  if (data.status === 200) {
+    window.location.href = redirectUrl;
+  } else {
+    window.location.href = `${redirectUrl}/${message}`;
+  }
+};
+
 //CREAR CARRITO
 const newCartForm = document.getElementById("newCart");
 newCartForm?.addEventListener("submit", async (evt) => {
   evt.preventDefault();
-  const data = await fetch("http://localhost:8080/api/carts/", {
+  const data = await fetch(`http://localhost:${port}/api/carts/`, {
     method: "POST",
   });
   const parsedData = await data.json();
@@ -57,9 +67,9 @@ searchForm?.addEventListener("submit", async (evt) => {
     window.alert("Ingrese un id");
     return;
   }
-  const data = await fetch(`http://localhost:8080/api/carts/${id}`);
+  const data = await fetch(`http://localhost:${port}/api/carts/${id}`);
   if (data.status === 200) {
-    window.location.href = `http://localhost:8080/carts/${id}`;
+    window.location.href = `http://localhost:${port}/api/carts/${id}`;
   } else {
     window.alert("Algo salio mal, reintentar por favor");
   }

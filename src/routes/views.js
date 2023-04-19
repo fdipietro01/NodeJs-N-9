@@ -4,8 +4,8 @@ const passportAutenticate = require("../middlewares/passportAutenticate");
 const passportAuthorize = require("../middlewares/passportAuthorize");
 const viewsRouter = Router();
 
-const ProductManager = require("../daos/mongoDaos/ProductManager");
-const productHandler = new ProductManager();
+const productHandler = require("../daos/mongoDaos/ProductManager");
+const cartController = require("../controller/cartController");
 
 //vista de login
 viewsRouter.get("/login", isLogged("current"), (req, res) => {
@@ -55,34 +55,9 @@ viewsRouter.get("/home", isLogged("current", true), async (req, res) => {
 });
 
 //vista de todos los carrito para usuario (para crear o buscar existente)
-viewsRouter.get("/carrito", passportAutenticate("current"), (req, res) => {
-  console.log("carts");
+viewsRouter.get("/carts", passportAutenticate("current"), (req, res) => {
   res.render("homeCarritos");
 });
-
-//vista de carrito fitlrado por id
-viewsRouter.get(
-  "/carts/:cid",
-  passportAutenticate("current"),
-  async (req, res) => {
-    const { cid } = req.params;
-    try {
-      const cartProducts = await cartHandler.getProductsfromCart(cid);
-      const { payload: catalogProducts } = await productHandler.getProducts();
-      const cartExist = cartProducts.length;
-      const catalogExists = catalogProducts.length;
-      res.render("editCarritos", {
-        cartProducts,
-        catalogProducts,
-        cartExist,
-        catalogExists,
-        id: cid,
-      });
-    } catch (err) {
-      res.send({ error: err.message });
-    }
-  }
-);
 
 //vista de administrador para ver y editar catalogo de productos
 viewsRouter.get(
@@ -119,4 +94,5 @@ viewsRouter.get(
     }
   }
 );
+
 module.exports = viewsRouter;

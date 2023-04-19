@@ -12,7 +12,8 @@ class CartMaganer {
 
   getProductsfromCart = async (cid) => {
     try {
-      const carrito = await modeloCarrito.findOne({ _id: cid }).lean();
+      const parsedId = new Types.ObjectId(cid);
+      const carrito = await modeloCarrito.findOne({ _id: parsedId }).lean();
       if (!carrito) throw new Error("No existe el carrito con ese Id");
       //mapping response
       let products;
@@ -50,7 +51,8 @@ class CartMaganer {
   };
 
   updateProductsFromCart = async (cid, productos) => {
-    productos.forEach(element => {element.product = Types.ObjectId(element.product)
+    productos.forEach((element) => {
+      element.product = Types.ObjectId(element.product);
     });
     try {
       await modeloCarrito.findOneAndUpdate({ _id: cid }, { productos });
@@ -83,4 +85,4 @@ class CartMaganer {
   };
 }
 
-module.exports = CartMaganer;
+module.exports = new CartMaganer();
